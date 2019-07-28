@@ -7,6 +7,9 @@
     "discord.js": "github:discordjs/discord.js"
   },
   "devDependencies": {},
+  "engines": {
+    "node": "12.6.0"
+  },
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
