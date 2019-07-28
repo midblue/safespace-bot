@@ -1,7 +1,7 @@
 {
   "name": "safespace",
   "version": "1.0.0",
-  "description": "",
+  "description": "Keeping track of evil people for a safer Discord.",
   "main": "index.js",
   "dependencies": {
     "discord.js": "github:discordjs/discord.js"
@@ -11,9 +11,11 @@
     "node": "12.6.0"
   },
   "scripts": {
-    "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "gh": "git push heroku master",
+    "hup": "heroku ps:scale web=1",
+    "hdown": "heroku ps:scale web=0",
+    "l": "heroku local web",
+    "start": "node index.js"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Jasper Stephenson"
 }
