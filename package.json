@@ -4,9 +4,12 @@
   "description": "Keeping track of evil people for a safer Discord.",
   "main": "index.js",
   "dependencies": {
-    "discord.js": "github:discordjs/discord.js"
+    "discord.js": "github:discordjs/discord.js",
+    "dotenv": "^8.0.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  },
   "engines": {
     "node": "12.6.0"
   },
@@ -14,7 +17,7 @@
     "gh": "git push heroku master",
     "hup": "heroku ps:scale web=1",
     "hdown": "heroku ps:scale web=0",
-    "l": "heroku local web",
+    "dev": "nodemon index.js",
     "start": "node index.js"
   },
   "author": "Jasper Stephenson"
