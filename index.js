@@ -3,15 +3,19 @@ const Discord = require('discord.js')
 const client = new Discord.Client()
 const botId = '605039242309140483'
 const commands = require('./commands/index')
+const blacklistedWords = require('./blacklistedwords')
+const db = require('./db/firestore')
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`)
+  client.user.setPresence({ game: { name: '!info' }, status: 'online' })
+  //todo presence doesn't seem to work
 })
 
 const options = {
   prefix: '!',
   contactPoint: `jasp`,
-  bannedWords: ['nword', 'fword', 'shortfword'],
+  blacklistedWords,
   calloutMessage: `Hey! That kind of language is unacceptable. We take hate speech seriously around here.
 
 The channel moderators have been notified, and your user id has been logged across all servers using this bot. Think twice before using hate speech next time!
@@ -40,7 +44,7 @@ client.on('message', async msg => {
 client.on('guildCreate', guild => {
   console.log('Joined a new guild: ' + guild.name)
 })
-
+//todo set status to show !info
 // todo search history when new word is added / joins a server
 // todo and remove infractions when one is removed
 // todo search database when new user joins a server

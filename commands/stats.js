@@ -1,10 +1,10 @@
 module.exports = {
   regex(options) {
-    return new RegExp(`^${options.prefix}(s|stats)`, 'gi')
+    return new RegExp(`^${options.prefix}(stats|s)`, 'gi')
   },
   action(msg, options) {
     const serverStats = getServerStats(msg.guild.id)
-    return msg.channel.send(`**Server Stats:**
+    msg.channel.send(`**Server Stats:**
 \`\`\`${JSON.stringify(serverStats, 1, 1)}\`\`\`
 **Global Stats:**
 \`\`\`${JSON.stringify(serverStats, 1, 1)}\`\`\``)

@@ -4,6 +4,7 @@
   "description": "Keeping track of evil people for a safer Discord.",
   "main": "index.js",
   "dependencies": {
+    "@google-cloud/firestore": "^2.2.4",
     "discord.js": "github:discordjs/discord.js",
     "dotenv": "^8.0.0"
   },
