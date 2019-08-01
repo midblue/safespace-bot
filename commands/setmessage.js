@@ -1,26 +1,33 @@
+const db = require('../db/firestore')
+
 module.exports = {
   admin: true,
   regex(options) {
-    return new RegExp(`^${options.prefix}(?:m|message|setmessage) ?(.*)`, 'gi')
+    return new RegExp(
+      `^${options.prefix}(?:message|setmessage|m)( ?)([\\w\\W]*)$`,
+      'gi'
+    )
   },
-  action(msg, options, match) {
-    const newMessage = match[1]
-    if (!newMessage)
+  async action(msg, options, match) {
+    const newMessage = match[2]
+    if (!newMessage || !match[1])
       return msg.channel.send(
-        `The current auto-reply to hate speech is: \`\`\`@(username), ${
-          options.calloutMessage
+        `The current auto-reply to hate speech is: \`\`\`${
+          options.message
         }\`\`\`
 Type \`${
           options.prefix
-        }setmessage <new message>\` to set a new auto-reply to hate speech.`
+        }message <new message>\` to set a new auto-reply to hate speech (multiple line messages are fine!)`
       )
 
-    // todo set new auto-reply
+    await db.setGuildSettings({ guildId: msg.guild.id, message: newMessage })
+
     msg.channel.send(
       `The auto-reply to hate speech has been changed from:
-\`\`\`@(username), ${options.calloutMessage}\`\`\`
+\`\`\`${options.message}\`\`\`
 to:
-\`\`\`@(username), ${newMessage}\`\`\``
+\`\`\`
+${newMessage}\`\`\``
     )
   },
 }

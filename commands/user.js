@@ -1,4 +1,5 @@
 const db = require('../db/firestore')
+const { getLabelFromUser } = require('../commonFunctions')
 
 module.exports = {
   expectsUserInRegexSlot: 2,
@@ -17,13 +18,11 @@ module.exports = {
         `\`\`\`Sorry, I couldn't find a user by the name ${match[2]}.\`\`\``
       )
 
-    const displayUsername = user
-      ? `${user.nickname ? user.nickname + ' (' : ''}${user.user.username}#${
-          user.user.discriminator
-        }${user.nickname ? ')' : ''}`
-      : match[2]
+    const displayUsername = user ? getLabelFromUser(user) : match[2]
 
-    const foundUserInfractions = await getUserInfractions(user)
+    const foundUserInfractions = await db.getUserInfractions({
+      userId: user.id || user.user.id,
+    })
     if (!foundUserInfractions || foundUserInfractions.length === 0)
       return msg.channel.send(
         `\`\`\`Great news! As far as I know, ${displayUsername} has never used hate speech on a Discord server.\`\`\``
@@ -47,8 +46,4 @@ ${foundUserInfractions
         : ''
     }\`\`\``)
   },
-}
-
-async function getUserInfractions(user) {
-  return await db.getInfractions({ userId: user.id || user.user.id })
 }

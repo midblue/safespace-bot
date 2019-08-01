@@ -1,24 +1,23 @@
+const db = require('../db/firestore')
+
 module.exports = {
   regex(options) {
     return new RegExp(`^${options.prefix}(stats|s)`, 'gi')
   },
-  action(msg, options) {
-    const serverStats = getServerStats(msg.guild.id)
+  async action(msg, options) {
+    const serverStats = await db.getGuildStats(msg.guild.id)
+    const overallStats = {
+      ...(await db.getOverallStats()),
+      guildCount: db.getGuildCount(),
+      offenderCount: db.getOverallOffenderCount(),
+    }
     msg.channel.send(`**Server Stats:**
 \`\`\`${JSON.stringify(serverStats, 1, 1)}\`\`\`
 **Global Stats:**
-\`\`\`${JSON.stringify(serverStats, 1, 1)}\`\`\``)
+\`\`\`${overallStats.guildCount} servers running this bot
+${overallStats.offenderCount} offenders across all servers
+${
+  overallStats.totalInfractions
+} uses of hate speech caught across all servers\`\`\``)
   },
-}
-
-function getServerStats(serverId) {
-  return testServer //[]
-  // todo real data
-}
-
-const testServer = {
-  runningSince: Date.now(),
-  infractions: 5,
-  forgiven: 2,
-  bannedWords: ['nword', 'fword'],
 }

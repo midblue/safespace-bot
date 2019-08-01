@@ -2,12 +2,15 @@ const db = require('../db/firestore')
 
 module.exports = {
   regex(options) {
-    return new RegExp(`\\b(${options.blacklistedWords.join('|')})\\b`, 'gim')
+    return new RegExp(
+      `\\b(${options.blacklistedWords.full.join('|')})\\b`,
+      'gim'
+    )
   },
   action(msg, options, match, typedUser, sender) {
     const blacklistedWordsUsed = []
     const regex = new RegExp(
-      `\\b(${options.blacklistedWords.join('|')})\\b`,
+      `\\b(${options.blacklistedWords.full.join('|')})\\b`,
       'gim'
     )
     let matchedWord = regex.exec(msg.cleanContent)
@@ -15,7 +18,7 @@ module.exports = {
       blacklistedWordsUsed.push(matchedWord[1])
       matchedWord = regex.exec(msg.cleanContent)
     }
-    msg.reply(`\`${options.calloutMessage}\``)
+    msg.reply(`\`${options.message}\``)
     db.addInfraction({
       userId: sender.id,
       infraction: {
@@ -27,5 +30,6 @@ module.exports = {
         words: blacklistedWordsUsed,
       },
     })
+    // todo contact admin
   },
 }

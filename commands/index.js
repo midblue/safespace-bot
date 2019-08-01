@@ -1,3 +1,5 @@
+const { getUserInGuildFromText } = require('../commonFunctions')
+
 // get all commands from files
 const fs = require('fs')
 const commands = []
@@ -27,7 +29,7 @@ module.exports = function(msg, options) {
         match[command.expectsUserInRegexSlot - 1]
       ) {
         const usernameInPlainText = match[command.expectsUserInRegexSlot]
-        typedUser = getUserInServerFromText(msg, usernameInPlainText)
+        typedUser = getUserInGuildFromText(msg, usernameInPlainText)
       }
 
       // execute command
@@ -36,18 +38,4 @@ module.exports = function(msg, options) {
       return true
     }
   }
-}
-
-function getUserInServerFromText(msg, searchText) {
-  const usersInServer = msg.guild.members.array()
-  const userNamesInServer = usersInServer.map(user => ({
-    ...user,
-    searchString: `${user.user.username} ${user.user.username}#${
-      user.user.discriminator
-    } ${user.nickname ? user.nickname : ''} <@!${user.id}>`.toLowerCase(),
-  }))
-  const foundUser = userNamesInServer.find(
-    userName => userName.searchString.indexOf(searchText.toLowerCase()) >= 0
-  )
-  return foundUser
 }
