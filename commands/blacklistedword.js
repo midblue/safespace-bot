@@ -11,7 +11,7 @@ module.exports = {
     )
   },
   action(msg, options, match, typedUser, sender, client) {
-    console.log(`*** ${msg.guild.name} - Blacklisted Word`)
+    console.log(`*** ${msg.guild.name} - Blacklisted Word: ${match[1]}`)
     const blacklistedWordsUsed = []
     const regex = new RegExp(
       `\\b(${options.blacklistedWords.full.join('|')})\\b`,

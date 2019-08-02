@@ -16,8 +16,8 @@
   },
   "scripts": {
     "gh": "git push heroku master",
-    "hup": "heroku ps:scale web=1",
-    "hdown": "heroku ps:scale web=0",
+    "hup": "heroku ps:scale worker=1",
+    "hdown": "heroku ps:scale worker=0",
     "dev": "nodemon index.js",
     "start": "node index.js"
   },
