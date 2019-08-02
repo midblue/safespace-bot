@@ -4,7 +4,7 @@ const blacklistedWords = {
 }
 
 module.exports = {
-  prefix: '!',
+  prefix: 's!',
   contactPoint: null,
   blacklistedWords,
   message: `Hey! That kind of language is unacceptable. We take hate speech seriously around here.

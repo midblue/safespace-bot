@@ -11,6 +11,7 @@ module.exports = {
   async action(msg, options) {
     console.log(`${msg.guild ? msg.guild.name : 'PM'} - Info`)
     options = options || defaultOptions
+    // todo make this a nice rich message object
     return msg.channel
       .send(`Hi! I'm the SafeSpace bot. I'm designed to keep hate speech and hate speech users out of your server.
 I'll track hate speech users across any of the ${db.getGuildCount()} servers that I'm running on. Even if someone uses hate speech on another server, you will be alerted.
@@ -37,12 +38,13 @@ I'll track hate speech users across any of the ${db.getGuildCount()} servers tha
     }contact <username>\` - Set the user for the bot to DM in the event of hate speech.
 \`${
       options.prefix
-    }prefix <!/-/~>\` - Set the prefix for bot commands to one of these 3 options. Defaults to "!".
+    }prefix <s!/s-/s~>\` - Set the prefix for bot commands to one of these 3 options. Defaults to "s!".
 \`${options.prefix}message\` - View the current auto-reply to hate speech.
 \`${
       options.prefix
     }message <new message>\` - Sets a new auto-reply to hate speech.
-    
+
+Made by jasp#8169.
 Go to https://github.com/midblue/safespace-bot for feedback and bug reports!`)
 
     /*

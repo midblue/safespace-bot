@@ -10,7 +10,7 @@ const otherMemberJoinServer = require('./events/otherMemberJoinServer')
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`)
-  client.user.setActivity('!info', { type: 'LISTENING' })
+  client.user.setActivity('s!info', { type: 'LISTENING' })
 })
 
 client.on('message', async msg => {

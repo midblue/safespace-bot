@@ -13,12 +13,12 @@ module.exports = {
         `The current prefix is: \`${options.prefix}\`
 Type \`${
           options.prefix
-        }prefix <!/-/~>\` to set the command prefix for this bot to one of the options listed.`
+        }prefix <s!/s-/s~>\` to set the command prefix for this bot to one of the options listed.`
       )
 
-    if (!['!', '-', '~'].includes(newPrefix))
+    if (!['s!', 's-', 's~'].includes(newPrefix))
       return msg.channel.send(
-        `The bot command prefix must be either !, -, or ~.`
+        `The bot command prefix must be either s!, s-, or s~.`
       )
 
     await db.setGuildSettings({ guildId: msg.guild.id, prefix: newPrefix })
