@@ -1,5 +1,6 @@
 const db = require('../db/firestore')
-const { getLabelFromUser } = require('../commonFunctions')
+const { getLabelFromUser, formatInfractions } = require('../commonFunctions')
+const defaultOptions = require('../defaultServerOptions')
 
 module.exports = {
   expectsUserInRegexSlot: 2,
@@ -7,6 +8,8 @@ module.exports = {
     return new RegExp(`^${options.prefix}(?:user|u)( ?)(.*)`, 'gi')
   },
   async action(msg, options, match, user) {
+    console.log(`${msg.guild.name} - User`)
+    options = options || defaultOptions
     if (!user && !match[2])
       return msg.channel.send(
         `Type \`${
@@ -27,23 +30,11 @@ module.exports = {
       return msg.channel.send(
         `\`\`\`Great news! As far as I know, ${displayUsername} has never used hate speech on a Discord server.\`\`\``
       )
-    msg.channel
-      .send(`\`\`\`All logged uses of hate speech by ${displayUsername}:
-
-${foundUserInfractions
-  .slice(0, 10)
-  .map(
-    u =>
-      `"${u.fullMessage}"
-	  - ${new Date(u.date).toLocaleDateString()} in #${u.channel} on server ${
-        u.guild
-      }`
-  )
-  .join('\n')}${
-      foundUserInfractions.length > 10
-        ? `(${foundUserInfractions.length -
-            10} additional infractions not shown.)`
-        : ''
-    }\`\`\``)
+    msg.channel.send(
+      formatInfractions({
+        username: displayUsername,
+        infractions: foundUserInfractions,
+      })
+    )
   },
 }

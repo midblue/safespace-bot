@@ -10,6 +10,7 @@ module.exports = {
     return new RegExp(`^${options.prefix}(l|list|narc|offenders)`, 'gi')
   },
   async action(msg, options) {
+    console.log(`${msg.guild.name} - List`)
     const offendersInGuild = (
       (await getAllOffendersInGuild(msg.guild)) || []
     ).filter(entry => entry.infractionsCount > 0)

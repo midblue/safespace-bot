@@ -28,8 +28,31 @@ module.exports = {
   },
 
   getLabelFromUser(user) {
-    return `${user.nickname ? user.nickname + ' (' : ''}${user.user.username}#${
-      user.user.discriminator
-    }${user.nickname ? ')' : ''}`
+    if (!user) return
+    return `${user.nickname ? user.nickname + ' (' : ''}${user.username ||
+      user.user.username}#${user.discriminator || user.user.discriminator}${
+      user.nickname ? ')' : ''
+    }`
+  },
+
+  formatInfractions({ username, infractions }) {
+    return `\`\`\`All logged uses of hate speech by ${username}:
+
+${infractions
+  .slice(0, 10)
+  .map(
+    u =>
+      `"${u.fullMessage}"
+	  - ${u.date.toDate().toLocaleDateString()} in #${u.channel} on server ${
+        u.guild
+      }`
+  )
+  .join('\n')}${
+      infractions.length > 10
+        ? `
+
+(${infractions.length - 10} additional infractions not shown.)`
+        : ''
+    }\`\`\``
   },
 }

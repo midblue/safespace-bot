@@ -8,6 +8,7 @@ module.exports = {
     return new RegExp(`^${options.prefix}(?:forgive|f)( ?)(.*)`, 'gi')
   },
   async action(msg, options, match, user) {
+    console.log(`${msg.guild.name} - Forgive`)
     if (!user && !match[2])
       return msg.channel.send(
         `Type \`${

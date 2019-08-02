@@ -15,7 +15,14 @@ module.exports = function(firestore) {
   return {
     getGuildCount() {
       return Object.keys(memoedServerSettings).length
-      // todo add 10 to this or something?
+      // do we want to add 10 to this or something? just for funsies ;)
+    },
+
+    async hasGuild({ guildId }) {
+      const document = firestore.doc(`guilds/${guildId}`)
+      const doc = await document.get()
+      if (doc.data()) return true
+      return false
     },
 
     async addGuild({ guildId, guildName }) {
@@ -68,10 +75,10 @@ module.exports = function(firestore) {
       )
     },
 
-    async getGuildStats({ guildId }) {
-      return {
-        asdf: 'jkl', // todo real data
-      }
-    },
+    // async getGuildStats({ guildId }) {
+    //   return {
+    //     asdf: 'jkl',
+    //   }
+    // },
   }
 }

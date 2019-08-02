@@ -11,6 +11,7 @@ module.exports = {
     )
   },
   async action(msg, options, match, user) {
+    console.log(`${msg.guild.name} - Contact`)
     const currentContact = getUserInGuildFromId(
       msg.guild,
       options.contact ? options.contact : msg.guild.owner.user.id

@@ -9,6 +9,7 @@ module.exports = {
     )
   },
   async action(msg, options, match) {
+    console.log(`${msg.guild.name} - Message`)
     const newMessage = match[2]
     if (!newMessage || !match[1])
       return msg.channel.send(

@@ -1,4 +1,7 @@
-const blacklistedWords = require('./blacklistedwords')
+const blacklistedWords = {
+  full: process.env.BLACKLISTED_WORDS_FULL.split(','),
+  sanitized: process.env.BLACKLISTED_WORDS_SANITIZED.split(','),
+}
 
 module.exports = {
   prefix: '!',

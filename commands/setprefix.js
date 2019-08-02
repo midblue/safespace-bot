@@ -6,6 +6,7 @@ module.exports = {
     return new RegExp(`^${options.prefix}(?:prefix|setprefix|p) ?(.*)`, 'gi')
   },
   async action(msg, options, match) {
+    console.log(`${msg.guild.name} - Prefix`)
     const newPrefix = match[1]
     if (!newPrefix)
       return msg.channel.send(
@@ -21,8 +22,6 @@ Type \`${
       )
 
     await db.setGuildSettings({ guildId: msg.guild.id, prefix: newPrefix })
-
-    // todo update bot status to reflect new prefix?
 
     msg.channel.send(
       `The bot command prefix been changed from \`${

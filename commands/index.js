@@ -10,14 +10,18 @@ fs.readdir('./commands', (err, files) => {
   })
 })
 
-module.exports = function(msg, options) {
+module.exports = function(msg, options, client) {
   const sender = msg.author
   for (let command of commands) {
     // console.log(command.regex(options))
     const match = command.regex(options).exec(msg.content)
     if (match) {
       // admin check
-      if (command.admin && msg.guild.owner != msg.author.id) {
+      const isAdmin =
+        (msg.guild.owner.id || msg.guild.owner.user.id) ===
+          (sender.id || sender.user.id) ||
+        (sender.id || sender.user.id) == options.contact
+      if (!isAdmin) {
         msg.channel.send(`This command is only available to the server admin.`)
         return true
       }
@@ -33,7 +37,7 @@ module.exports = function(msg, options) {
       }
 
       // execute command
-      command.action(msg, options, match, typedUser, sender)
+      command.action(msg, options, match, typedUser, sender, client)
 
       return true
     }
