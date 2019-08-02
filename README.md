@@ -6,12 +6,12 @@
 ---
 
 ## This bot will
-- Call out hate speech users
-- Notify server admins when hate speech is used
-- Notify the admins of OTHER servers this bot is running on when hate speech is used by a member of their server, even if it was used on a different server
-- Notify admins when a hate speech user joins their server
-- Let all server users see exactly who has used hate speech, and in what context
-- Allow admins to forgive anyone for any hate speech used in their server
+- Call out hate speech users ![](https://www.jasperstephenson.com/posts/safespace/2.png)
+- Notify server admins when hate speech is used ![](https://www.jasperstephenson.com/posts/safespace/1.png)
+- Notify the admins of OTHER servers this bot is running on when hate speech is used by a member of their server, even if it was used on a different server ![](https://www.jasperstephenson.com/posts/safespace/3.png)
+- Notify admins when a hate speech user joins their server ![](https://www.jasperstephenson.com/posts/safespace/4.png)
+- Let all server users see exactly who has used hate speech, and in what context ![](https://www.jasperstephenson.com/posts/safespace/6.png)
+- Allow admins to forgive anyone for any hate speech used in their server ![](https://www.jasperstephenson.com/posts/safespace/5.png)
 
 The beauty of this bot lies in the fact that the more servers use it, the better it gets at rooting out hate speech users across the entire Discord network.
 
