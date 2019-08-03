@@ -4,7 +4,7 @@
 
 ### [Add SafeSpace to your server now!](https://discordapp.com/oauth2/authorize?client_id=605039242309140483&scope=bot&permissions=76800)
 
----
+![Header image](https://www.jasperstephenson.com/posts/safespace/headerthin.png)
 
 ## This bot will
 
