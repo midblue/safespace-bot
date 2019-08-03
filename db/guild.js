@@ -69,10 +69,7 @@ module.exports = function(firestore) {
         ...newSettings,
       }
 
-      console.log(
-        `Updated settings for guild ${guildId}`,
-        memoedServerSettings[guildId]
-      )
+      console.log(`Updated settings for guild ${guildId}`)
     },
 
     // async getGuildStats({ guildId }) {

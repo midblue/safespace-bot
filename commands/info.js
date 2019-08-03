@@ -4,7 +4,7 @@ const defaultOptions = require('../defaultServerOptions')
 module.exports = {
   regex(options) {
     return new RegExp(
-      `^(?:${options.prefix}|!)(i|h|info|help|guide|about)`,
+      `^(?:${options.prefix}|!|s!)(i|h|info|help|guide|about)`,
       'gi'
     )
   },
@@ -38,11 +38,11 @@ I'll track hate speech users across any of the ${db.getGuildCount()} servers tha
     }contact <username>\` - Set the user for the bot to DM in the event of hate speech.
 \`${
       options.prefix
-    }prefix <s!/s-/s~>\` - Set the prefix for bot commands to one of these 3 options. Defaults to "s!".
-\`${options.prefix}message\` - View the current auto-reply to hate speech.
+    }message <new message>\` - Sets a new auto-reply to hate speech.
 \`${
       options.prefix
-    }message <new message>\` - Sets a new auto-reply to hate speech.
+    }prefix <s!/s-/s~>\` - Set the prefix for bot commands to one of these 3 options. Defaults to "s!".
+\`${options.prefix}message\` - View the current auto-reply to hate speech.
 
 Made by jasp#8169.
 Go to https://github.com/midblue/safespace-bot for feedback and bug reports!`)

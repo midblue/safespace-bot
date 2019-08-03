@@ -21,7 +21,7 @@ module.exports = function(msg, options, client) {
         (msg.guild.owner.id || msg.guild.owner.user.id) ===
           (sender.id || sender.user.id) ||
         (sender.id || sender.user.id) == options.contact
-      if (!isAdmin) {
+      if (command.admin && !isAdmin) {
         msg.channel.send(`This command is only available to the server admin.`)
         return true
       }
