@@ -2,7 +2,6 @@ const db = require('../db/firestore')
 const scanOldMessages = require('../actions/scanOldMessages')
 
 module.exports = async guild => {
-  console.log('Guild Add', guild.id, guild.name)
   if (await db.hasGuild({ guildId: guild.id }))
     return console.log('Was re-added to a guild: ' + guild.name)
 

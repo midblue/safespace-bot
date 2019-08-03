@@ -36,6 +36,8 @@ module.exports = {
       infraction,
     })
 
+    msg.delete().catch(console.error)
+
     contactGuildAdmin({
       guild: msg.guild,
       options,
