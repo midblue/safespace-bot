@@ -14,7 +14,7 @@ client.on('ready', () => {
 })
 
 client.on('message', async msg => {
-  if (msg.author.id === botId) return
+  if (!msg.author || msg.author.id === botId) return
   if (!msg.guild || !msg.guild.available) return privateMessage(msg)
   return guildMessage(msg, client)
 })
