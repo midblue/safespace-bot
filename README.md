@@ -2,9 +2,10 @@
 
 **Keep hate speech OUT of your server, and everyone else's server, too.**
 
-### [Add SafeSpace to your server now!](https://discordapp.com/oauth2/authorize?client_id=605039242309140483&scope=bot&permissions=76800)
+[Add SafeSpace to your server now!](https://discordapp.com/oauth2/authorize?client_id=605039242309140483&scope=bot&permissions=76800)  
+[Read more about SafeSpace here!](https://www.jasperstephenson.com/posts/safespace)
 
----
+![Header image](https://www.jasperstephenson.com/posts/safespace/headerthin.png)
 
 ## This bot will
 
