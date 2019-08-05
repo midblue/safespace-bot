@@ -11,6 +11,6 @@ module.exports = async ({ guild, options, message }) => {
     ? getUserInGuildFromId(guild, options.contact) || guild.owner
     : guild.owner
   if (!currentGuildContact)
-    return console.log('Failed to find contact person in server', guild)
+    return console.log('Failed to find contact person in server', guild.name)
   currentGuildContact.user.send(message)
 }
