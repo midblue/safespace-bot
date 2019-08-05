@@ -1,5 +1,8 @@
 const db = require('../db/firestore')
-const { getUserInGuildFromId, getLabelFromUser } = require('../commonFunctions')
+const {
+  getContactOrOwnerOrModerator,
+  getLabelFromUser,
+} = require('../commonFunctions')
 const { reply, send } = require('../actions/replyInChannel')
 
 module.exports = {
@@ -13,10 +16,11 @@ module.exports = {
   },
   async action(msg, options, match, user) {
     console.log(`${msg.guild.name} - Contact`)
-    const currentContact = getUserInGuildFromId(
-      msg.guild,
-      options.contact ? options.contact : msg.guild.owner.user.id
-    )
+    const currentContact = getContactOrOwnerOrModerator({
+      guild: msg.guild,
+      contact: options.contact,
+      msg,
+    })
     if (!user && !match[2])
       return send(
         msg,

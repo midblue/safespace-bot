@@ -43,6 +43,7 @@ module.exports = {
       contactGuildAdmin({
         guild: msg.guild,
         options,
+        msg,
         message: `I don't have permission to manage messages on your server. Kick SafeSpace and use this link to re-add with proper permissions. https://discordapp.com/oauth2/authorize?client_id=605039242309140483&scope=bot&permissions=76800`,
       })
       console.error('Missing permissions to delete!', err)
@@ -51,6 +52,7 @@ module.exports = {
     contactGuildAdmin({
       guild: msg.guild,
       options,
+      msg,
       message: `Heads up! \`${getLabelFromUser(
         getUserInGuildFromId(msg.guild, sender.id)
       )}\` just used hate speech in \`#${

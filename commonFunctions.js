@@ -21,10 +21,24 @@ module.exports = {
     return await db.getAllMemberInfractions({ memberIds })
   },
 
-  getUserInGuildFromId(guild, id) {
-    if (!guild || !id) return
-    const usersInGuild = guild.members.array()
-    return usersInGuild.find(user => (user.id || user.user.id) == id)
+  getUserInGuildFromId,
+
+  getContactOrOwnerOrModerator({ guild, contact, msg }) {
+    // default to contact person, then check guild.owner, then try to get the owner by ID
+    let thePerson =
+      (contact
+        ? getUserInGuildFromId(guild, contact) || guild.owner
+        : guild.owner) || getUserInGuildFromId(guild, guild.ownerID)
+    if (thePerson) return thePerson
+    // if that didn't work and we don't know what channel we're in, we're SOL
+    if (!msg) return
+    // at this point, we just look for a mod of any kind
+    thePerson = guild.members
+      .array()
+      .find(member =>
+        msg.channel.permissionsFor(member).has('MANAGE_MESSAGES', false)
+      )
+    return thePerson
   },
 
   getLabelFromUser(user) {
@@ -55,4 +69,10 @@ ${infractions
         : ''
     }\`\`\``
   },
+}
+
+function getUserInGuildFromId(guild, id) {
+  if (!guild || !id) return
+  const usersInGuild = guild.members.array()
+  return usersInGuild.find(user => (user.id || user.user.id) == id)
 }
