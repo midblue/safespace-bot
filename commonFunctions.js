@@ -32,12 +32,10 @@ module.exports = {
     if (thePerson) return thePerson
     // if that didn't work and we don't know what channel we're in, we're SOL
     if (!msg) return
-    // at this point, we just look for a mod of any kind
+    // at this point, we just look for an admin of any kind
     thePerson = guild.members
       .array()
-      .find(member =>
-        msg.channel.permissionsFor(member).has('MANAGE_MESSAGES', false)
-      )
+      .find(member => member.permissions.has('ADMINISTRATOR'))
     return thePerson
   },
 
