@@ -18,10 +18,6 @@
 
 The beauty of this bot lies in the fact that the more servers use it, the better it gets at rooting out hate speech users across the entire Discord network.
 
-## Blacklisted Words
-
-`n****r`, `f*g`, `f****t`, `s**c`, `k**e`, `w*****k` and their plural forms.
-
 ## Forgiveness
 
 Obviously, words have context.  
