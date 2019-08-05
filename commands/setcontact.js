@@ -1,5 +1,6 @@
 const db = require('../db/firestore')
 const { getUserInGuildFromId, getLabelFromUser } = require('../commonFunctions')
+const { reply, send } = require('../actions/replyInChannel')
 
 module.exports = {
   admin: true,
@@ -17,14 +18,16 @@ module.exports = {
       options.contact ? options.contact : msg.guild.owner.user.id
     )
     if (!user && !match[2])
-      return msg.channel.send(
+      return send(
+        msg,
         `The current contact for when hate speech is used on your server is ${getLabelFromUser(
           currentContact
         )}.
 Type \`${options.prefix}contact <username>\` to set a new contact.`
       )
     if (!user)
-      return msg.channel.send(
+      return send(
+        msg,
         `\`\`\`Sorry, I couldn't find a user by the name ${match[2]}.\`\`\``
       )
 
@@ -33,7 +36,8 @@ Type \`${options.prefix}contact <username>\` to set a new contact.`
       contact: user.id || user.user.id,
     })
 
-    msg.channel.send(
+    send(
+      msg,
       `The contact for when hate speech is used on your server has been changed from ${getLabelFromUser(
         currentContact
       )} to ${getLabelFromUser(user)}`

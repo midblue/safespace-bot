@@ -1,4 +1,5 @@
 const db = require('../db/firestore')
+const { reply, send } = require('../actions/replyInChannel')
 const {
   getUserInGuildFromId,
   getAllOffendersInGuild,
@@ -16,11 +17,14 @@ module.exports = {
     ).filter(entry => entry.infractionsCount > 0)
 
     if (offendersInGuild.length === 0)
-      return msg.channel.send(
+      return send(
+        msg,
         `\`\`\`Great news! There are no hate speech users in this server.\`\`\``
       )
 
-    msg.channel.send(`\`\`\`All hate speech users in this server:
+    send(
+      msg,
+      `\`\`\`All hate speech users in this server:
 
 ${offendersInGuild
   .map(o => {
@@ -31,6 +35,7 @@ ${offendersInGuild
   })
   .join('\n')}
 
-Type ${options.prefix}user <username> to learn more about any user.\`\`\``)
+Type ${options.prefix}user <username> to learn more about any user.\`\`\``
+    )
   },
 }

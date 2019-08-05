@@ -1,4 +1,5 @@
 const db = require('../db/firestore')
+const { reply, send } = require('../actions/replyInChannel')
 
 module.exports = {
   admin: true,
@@ -12,7 +13,8 @@ module.exports = {
     console.log(`${msg.guild.name} - Message`)
     const newMessage = match[2]
     if (!newMessage || !match[1])
-      return msg.channel.send(
+      return send(
+        msg,
         `The current auto-reply to hate speech is: \`\`\`${
           options.message
         }\`\`\`
@@ -23,7 +25,8 @@ Type \`${
 
     await db.setGuildSettings({ guildId: msg.guild.id, message: newMessage })
 
-    msg.channel.send(
+    send(
+      msg,
       `The auto-reply to hate speech has been changed from:
 \`\`\`${options.message}\`\`\`
 to:

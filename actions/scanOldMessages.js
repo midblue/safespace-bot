@@ -13,7 +13,9 @@ module.exports = async guild => {
     return new Promise(async resolve => {
       const foundPastInfractions = []
       let oldestMessageId = null
-      let messages = await channel.messages.fetch({ limit: 50 })
+      let messages = await channel.messages.fetch({ limit: 50 }).catch(err => {
+        console.error('Missing permissions to get channel messages!', err)
+      })
       while (messages.keyArray().length > 0) {
         console.log(
           `Scanning ${messages.keyArray().length} messages from #${

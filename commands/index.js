@@ -1,4 +1,5 @@
 const { getUserInGuildFromText } = require('../commonFunctions')
+const { reply, send } = require('../actions/replyInChannel')
 
 // get all commands from files
 const fs = require('fs')
@@ -24,7 +25,7 @@ module.exports = function(msg, options, client) {
             (sender.id || sender.user.id) == options.contact
           : false
       if (command.admin && !isAdmin) {
-        msg.channel.send(`This command is only available to the server admin.`)
+        send(msg, `This command is only available to the server admin.`)
         return true
       }
 

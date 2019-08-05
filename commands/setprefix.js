@@ -1,4 +1,5 @@
 const db = require('../db/firestore')
+const { reply, send } = require('../actions/replyInChannel')
 
 module.exports = {
   admin: true,
@@ -9,7 +10,8 @@ module.exports = {
     console.log(`${msg.guild.name} - Prefix`)
     const newPrefix = match[1]
     if (!newPrefix)
-      return msg.channel.send(
+      return send(
+        msg,
         `The current prefix is: \`${options.prefix}\`
 Type \`${
           options.prefix
@@ -17,13 +19,12 @@ Type \`${
       )
 
     if (!['s!', 's-', 's~'].includes(newPrefix))
-      return msg.channel.send(
-        `The bot command prefix must be either s!, s-, or s~.`
-      )
+      return send(msg, `The bot command prefix must be either s!, s-, or s~.`)
 
     await db.setGuildSettings({ guildId: msg.guild.id, prefix: newPrefix })
 
-    msg.channel.send(
+    send(
+      msg,
       `The bot command prefix been changed from \`${
         options.prefix
       }\` to \`${newPrefix}\``

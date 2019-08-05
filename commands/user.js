@@ -1,6 +1,7 @@
 const db = require('../db/firestore')
 const { getLabelFromUser, formatInfractions } = require('../commonFunctions')
 const defaultOptions = require('../defaultServerOptions')
+const { reply, send } = require('../actions/replyInChannel')
 
 module.exports = {
   expectsUserInRegexSlot: 2,
@@ -11,13 +12,15 @@ module.exports = {
     console.log(`${msg.guild.name} - User`)
     options = options || defaultOptions
     if (!user && !match[2])
-      return msg.channel.send(
+      return send(
+        msg,
         `Type \`${
           options.prefix
         }user <username>\` to see a user's history of using hate speech.`
       )
     if (!user)
-      return msg.channel.send(
+      return send(
+        msg,
         `\`\`\`Sorry, I couldn't find a user by the name ${match[2]}.\`\`\``
       )
 
@@ -27,10 +30,12 @@ module.exports = {
       userId: user.id || user.user.id,
     })
     if (!foundUserInfractions || foundUserInfractions.length === 0)
-      return msg.channel.send(
+      return send(
+        msg,
         `\`\`\`Great news! As far as I know, ${displayUsername} has never used hate speech on a Discord server.\`\`\``
       )
-    msg.channel.send(
+    send(
+      msg,
       formatInfractions({
         username: displayUsername,
         infractions: foundUserInfractions,

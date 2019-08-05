@@ -1,5 +1,6 @@
 const db = require('../db/firestore')
 const { getLabelFromUser } = require('../commonFunctions')
+const { reply, send } = require('../actions/replyInChannel')
 
 module.exports = {
   admin: true,
@@ -10,13 +11,15 @@ module.exports = {
   async action(msg, options, match, user) {
     console.log(`${msg.guild.name} - Forgive`)
     if (!user && !match[2])
-      return msg.channel.send(
+      return send(
+        msg,
         `Type \`${
           options.prefix
         }forgive <username>\` to forgive a user's history of using hate speech on your server.`
       )
     if (!user)
-      return msg.channel.send(
+      return send(
+        msg,
         `\`\`\`Sorry, I couldn't find a user by the name ${match[2]}.\`\`\``
       )
 
@@ -28,17 +31,20 @@ module.exports = {
     } = await forgiveInfractions(user, msg.guild)
 
     if (forgivenInfractions.length === 0 && remainingInfractions.length === 0)
-      return msg.channel.send(
+      return send(
+        msg,
         `\`\`\`As far as I know, ${displayUsername} has never used hate speech on Discord.\`\`\``
       )
 
     if (forgivenInfractions.length === 0)
-      return msg.channel.send(
+      return send(
+        msg,
         `\`\`\`${displayUsername} has used hate speech elsewhere, but not on your server. You only have the power to forgive hate speech from your own server.
 Type !user ${match[2]} to see all of their infractions.\`\`\``
       )
 
-    msg.channel.send(
+    send(
+      msg,
       `\`\`\`${displayUsername} has been forgiven for using hate speech on your server ${
         forgivenInfractions.length
       } time${forgivenInfractions.length === 1 ? '' : 's'}.${

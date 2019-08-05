@@ -1,6 +1,7 @@
 const db = require('../db/firestore')
 const { getUserInGuildFromId, getLabelFromUser } = require('../commonFunctions')
 const contactGuildAdmin = require('../actions/contactGuildAdmin')
+const { reply, send } = require('../actions/replyInChannel')
 const contactOtherServersAUserIsIn = require('../actions/contactOtherServersAUserIsIn')
 
 module.exports = {
@@ -22,7 +23,9 @@ module.exports = {
       blacklistedWordsUsed.push(matchedWord[1])
       matchedWord = regex.exec(msg.cleanContent)
     }
-    msg.reply(`\`${options.message}\``)
+
+    reply(msg, `\`${options.message}\``)
+
     const infraction = {
       date: msg.createdAt,
       guild: msg.guild.name,
@@ -36,7 +39,14 @@ module.exports = {
       infraction,
     })
 
-    msg.delete().catch(console.error)
+    msg.delete().catch(err => {
+      contactGuildAdmin({
+        guild: msg.guild,
+        options,
+        message: `I don't have permission to manage messages on your server. Kick SafeSpace and use this link to re-add with proper permissions. https://discordapp.com/oauth2/authorize?client_id=605039242309140483&scope=bot&permissions=76800`,
+      })
+      console.error('Missing permissions to delete!', err)
+    })
 
     contactGuildAdmin({
       guild: msg.guild,

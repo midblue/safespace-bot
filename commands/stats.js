@@ -1,4 +1,5 @@
 const db = require('../db/firestore')
+const { reply, send } = require('../actions/replyInChannel')
 
 module.exports = {
   regex(options) {
@@ -12,11 +13,14 @@ module.exports = {
       guildCount: db.getGuildCount(),
       offenderCount: db.getOverallOffenderCount(),
     }
-    msg.channel.send(`**Global Stats:**
+    send(
+      msg,
+      `**Global Stats:**
 \`\`\`${overallStats.guildCount} servers running this bot
 ${overallStats.offenderCount} offenders across all servers
 ${
   overallStats.totalInfractions
-} uses of hate speech caught across all servers\`\`\``)
+} uses of hate speech caught across all servers\`\`\``
+    )
   },
 }
