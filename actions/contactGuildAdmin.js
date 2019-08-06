@@ -10,7 +10,6 @@ module.exports = async ({ guild, options, message, msg }) => {
   const currentGuildContact = getContactOrOwnerOrModerator({
     guild,
     contact: options.contact,
-    msg,
   })
 
   if (!currentGuildContact)

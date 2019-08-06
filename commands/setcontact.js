@@ -19,7 +19,6 @@ module.exports = {
     const currentContact = getContactOrOwnerOrModerator({
       guild: msg.guild,
       contact: options.contact,
-      msg,
     })
     if (!user && !match[2])
       return send(

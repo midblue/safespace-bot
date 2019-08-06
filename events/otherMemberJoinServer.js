@@ -13,7 +13,6 @@ module.exports = async member => {
   const guild = member.guild
   contactGuildAdmin({
     guild,
-    msg,
     message: `A user named ${displayName} just joined your server. They have a history of using hate speech on other servers, and I thought you should know.
 ${formatInfractions({
   username: displayName,

@@ -23,15 +23,13 @@ module.exports = {
 
   getUserInGuildFromId,
 
-  getContactOrOwnerOrModerator({ guild, contact, msg }) {
+  getContactOrOwnerOrModerator({ guild, contact }) {
     // default to contact person, then check guild.owner, then try to get the owner by ID
     let thePerson =
       (contact
         ? getUserInGuildFromId(guild, contact) || guild.owner
         : guild.owner) || getUserInGuildFromId(guild, guild.ownerID)
     if (thePerson) return thePerson
-    // if that didn't work and we don't know what channel we're in, we're SOL
-    if (!msg) return
     // at this point, we just look for an admin of any kind
     thePerson = guild.members
       .array()
