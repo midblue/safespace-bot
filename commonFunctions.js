@@ -23,18 +23,25 @@ module.exports = {
 
   getUserInGuildFromId,
 
-  getContactOrOwnerOrModerator({ guild, contact }) {
-    // default to contact person, then check guild.owner, then try to get the owner by ID
-    let thePerson =
-      (contact
-        ? getUserInGuildFromId(guild, contact) || guild.owner
-        : guild.owner) || getUserInGuildFromId(guild, guild.ownerID)
-    if (thePerson) return thePerson
+  getContactsOrOwnerOrModerator({ guild, contact }) {
+    // backwards compatible with old single contact method
+    if (contact && !Array.isArray(contact)) contact = [contact]
+    // default to contact list
+    let thePeople = contact
+      ? contact
+          .map(singleContact => getUserInGuildFromId(guild, singleContact))
+          .filter(c => c)
+      : false
+    if (thePeople && thePeople.length > 0) return thePeople
+    // check guild.owner
+    thePeople = getUserInGuildFromId(guild, guild.ownerID)
+    if (thePeople) return [thePeople]
     // at this point, we just look for an admin of any kind
-    thePerson = guild.members
+    thePeople = guild.members
       .array()
-      .find(member => member.permissions.has('ADMINISTRATOR'))
-    return thePerson
+      .filter(member => member.permissions.has('ADMINISTRATOR'))
+    if (thePeople && thePeople.length > 0) return thePeople
+    return []
   },
 
   getLabelFromUser(user) {

@@ -25,9 +25,10 @@ module.exports = function(firestore) {
       return false
     },
 
-    async addGuild({ guildId, guildName }) {
+    async addGuild({ guildId, guildName, guildOwnerId }) {
       const document = firestore.doc(`guilds/${guildId}`)
-      const newData = { dateAdded: Date.now(), name: guildName }
+      const newData = { dateAdded: Date.now(), name: guildName, contact: [] }
+      if (guildOwnerId) newData.contact.push(guildOwnerId)
       await document.set(newData)
       memoedServerSettings[guildId] = newData
       console.log(`Added guild ${guildId}`)

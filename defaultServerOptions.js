@@ -1,11 +1,20 @@
+function getWords(text) {
+  return text
+    .split(/,\s?/g)
+    .map(word => word.replace(/^\s*/g, '').replace(/\s*$/g, ''))
+}
+
+const full = getWords(process.env.BLACKLISTED_WORDS_FULL),
+  sanitized = getWords(process.env.BLACKLISTED_WORDS_SANITIZED)
+
 const blacklistedWords = {
-  full: process.env.BLACKLISTED_WORDS_FULL.split(','),
-  sanitized: process.env.BLACKLISTED_WORDS_SANITIZED.split(','),
+  full,
+  sanitized,
 }
 
 module.exports = {
   prefix: 's!',
-  contactPoint: null,
+  contact: [],
   blacklistedWords,
   message: `Hey! That kind of language is unacceptable. We take hate speech seriously around here.
 

@@ -9,6 +9,7 @@ module.exports = async guild => {
   db.addGuild({
     guildId: guild.id,
     guildName: guild.name,
+    guildOwnerId: guild.ownerID,
   })
   scanOldMessages(guild)
 }

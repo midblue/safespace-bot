@@ -34,8 +34,8 @@ We also wouldn't recommend using this bot anywhere that a blacklisted word might
 
 **Admin commands:**  
 `s!forgive <username>` - Forgive a user for all past (but not future) hate speech on this server.  
-`s!contact` - View the user that the bot will DM in the event of hate speech. Defaults to the server owner.  
-`s!contact <username>` - Set the user for the bot to DM in the event of hate speech.  
+`s!contact` - View the users that the bot will DM in the event of hate speech. Defaults to the server owner.  
+`s!contact <username>` - Add or remove a user for the bot to DM in the event of hate speech.  
 `s!message` - View the current auto-reply to hate speech.  
 `s!message <new message>` - Sets a new auto-reply to hate speech.  
 `s!prefix <s!/s-/s~>` - Set the prefix for bot commands to one of these 3 options. Defaults to "s!".

@@ -12,7 +12,7 @@ const otherMemberJoinServer = require('./events/otherMemberJoinServer')
 let messagesScannedSinceLastNotification = 0
 setInterval(() => {
   if (messagesScannedSinceLastNotification > 0)
-    console.log(`Scanned ${messagesScannedSinceLastNotification} messages.`)
+    console.log(`${messagesScannedSinceLastNotification} messages scanned.`)
   messagesScannedSinceLastNotification = 0
 }, 1 * 60 * 60 * 1000)
 

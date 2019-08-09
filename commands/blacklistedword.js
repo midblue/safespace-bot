@@ -7,7 +7,7 @@ const contactOtherServersAUserIsIn = require('../actions/contactOtherServersAUse
 module.exports = {
   regex(options) {
     return new RegExp(
-      `\\b(${options.blacklistedWords.full.join('|')})\\b`,
+      `(?:^|\s)(${options.blacklistedWords.full.join('|')})(?:$|\s)`,
       'gim'
     )
   },

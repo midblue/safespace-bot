@@ -19,11 +19,8 @@ module.exports = function(msg, options, client) {
     if (match) {
       // admin check
       const isAdmin =
-        msg.guild && msg.guild.owner
-          ? (msg.guild.owner.id || msg.guild.owner.user.id) ===
-              (sender.id || sender.user.id) ||
-            (sender.id || sender.user.id) == options.contact
-          : false
+        msg.guild &&
+        msg.guild.member(msg.author).permissions.has('ADMINISTRATOR')
       if (command.admin && !isAdmin) {
         send(msg, `This command is only available to the server admin.`)
         return true

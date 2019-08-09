@@ -1,5 +1,5 @@
 const db = require('../db/firestore')
-const { getContactOrOwnerOrModerator } = require('../commonFunctions')
+const { getContactsOrOwnerOrModerator } = require('../commonFunctions')
 
 module.exports = async ({ guild, options, message, msg }) => {
   options =
@@ -7,12 +7,14 @@ module.exports = async ({ guild, options, message, msg }) => {
     (await db.getGuildSettings({
       guildId: guild.id,
     }))
-  const currentGuildContact = getContactOrOwnerOrModerator({
+  const currentGuildContacts = getContactsOrOwnerOrModerator({
     guild,
     contact: options.contact,
   })
 
-  if (!currentGuildContact)
-    return console.log('Failed to find contact person in server', guild.name)
-  currentGuildContact.user.send(message)
+  if (!currentGuildContacts)
+    return console.log('Failed to find contact points in server', guild.name)
+  currentGuildContacts.forEach(singleContact =>
+    singleContact.user.send(message)
+  )
 }
