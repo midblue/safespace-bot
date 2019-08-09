@@ -8,7 +8,7 @@ const {
 
 module.exports = {
   regex(options) {
-    return new RegExp(`^${options.prefix}(l|list|narc|offenders)`, 'gi')
+    return new RegExp(`^${options.prefix}(list|narc|offenders|l)`, 'gi')
   },
   async action(msg, options) {
     console.log(`${msg.guild.name} - List`)
@@ -22,20 +22,28 @@ module.exports = {
         `\`\`\`Great news! There are no hate speech users in this server.\`\`\``
       )
 
-    send(
-      msg,
-      `\`\`\`All hate speech users in this server:
+    let messagesToSend = [`All hate speech users in this server:`]
+    let currentPositionInList = 0
+    const perPost = 20
+    while (currentPositionInList <= offendersInGuild.length) {
+      messagesToSend.push(
+        `\`\`\`${offendersInGuild
+          .slice(currentPositionInList, currentPositionInList + perPost)
+          .map(o => {
+            const userObject = getUserInGuildFromId(msg.guild, o.userId)
+            return `${getLabelFromUser(userObject)} has used hate speech ${
+              o.infractionsCount
+            } time${o.infractionsCount === 1 ? '' : 's'}.`
+          })
+          .join('\n')}\`\`\``
+      )
+      currentPositionInList += perPost
+    }
 
-${offendersInGuild
-  .map(o => {
-    const userObject = getUserInGuildFromId(msg.guild, o.userId)
-    return `${getLabelFromUser(userObject)} has used hate speech ${
-      o.infractionsCount
-    } time${o.infractionsCount === 1 ? '' : 's'}.`
-  })
-  .join('\n')}
-
-Type ${options.prefix}user <username> to learn more about any user.\`\`\``
+    messagesToSend.push(
+      `Type ${options.prefix}user <username> to learn more about any user.`
     )
+
+    messagesToSend.forEach(message => send(msg, message))
   },
 }
