@@ -53,10 +53,11 @@ module.exports = {
   },
 
   formatInfractions({ username, infractions }) {
+    const shownLimit = 20
     return `\`\`\`All logged uses of hate speech by ${username}:
 
 ${infractions
-  .slice(0, 10)
+  .slice(0, shownLimit)
   .map(
     u =>
       `"${u.fullMessage}"
@@ -65,10 +66,10 @@ ${infractions
       }`
   )
   .join('\n')}${
-      infractions.length > 10
+      infractions.length > shownLimit
         ? `
 
-(${infractions.length - 10} additional infractions not shown.)`
+(${infractions.length - shownLimit} additional infractions not shown.)`
         : ''
     }\`\`\``
   },
