@@ -16,11 +16,10 @@ module.exports = {
     send(
       msg,
       `**Global Stats:**
-\`\`\`${overallStats.guildCount} servers running this bot
-${overallStats.offenderCount} offenders across all servers
-${
-  overallStats.totalInfractions
-} uses of hate speech caught across all servers\`\`\``
+\`\`\`${overallStats.guildCount || 0} servers running this bot
+${overallStats.offenderCount || 0} offenders across all servers
+${overallStats.totalInfractions ||
+  0} uses of hate speech caught across all servers\`\`\``
     )
   },
 }

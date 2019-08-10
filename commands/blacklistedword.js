@@ -7,7 +7,11 @@ const contactOtherServersAUserIsIn = require('../actions/contactOtherServersAUse
 module.exports = {
   regex(options) {
     return new RegExp(
-      `(?:^|\s)(${options.blacklistedWords.full.join('|')})(?:$|\s)`,
+      `${
+        process.env.SCAN_INSIDE_WORDS === 'true' ? `` : `(?:\\s|^)`
+      }(${options.blacklistedWords.full.join('|')})${
+        process.env.SCAN_INSIDE_WORDS === 'true' ? `` : `(?:\\s|$)`
+      }`,
       'gim'
     )
   },
@@ -39,7 +43,7 @@ module.exports = {
       infraction,
     })
 
-    msg.delete().catch(err => {
+    msg.delete(1000).catch(err => {
       contactGuildAdmin({
         guild: msg.guild,
         options,

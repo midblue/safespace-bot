@@ -14,7 +14,7 @@ fs.readdir('./commands', (err, files) => {
 module.exports = function(msg, options, client) {
   const sender = msg.author
   for (let command of commands) {
-    // console.log(command.regex(options))
+    // console.log(command.regex(options), msg.content)
     const match = command.regex(options).exec(msg.content)
     if (match) {
       // admin check
@@ -33,6 +33,7 @@ module.exports = function(msg, options, client) {
         match[command.expectsUserInRegexSlot - 1]
       ) {
         const usernameInPlainText = match[command.expectsUserInRegexSlot]
+        console.log(usernameInPlainText)
         typedUser = getUserInGuildFromText(msg, usernameInPlainText)
       }
 

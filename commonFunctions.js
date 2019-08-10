@@ -3,12 +3,15 @@ const db = require('./db/firestore')
 module.exports = {
   getUserInGuildFromText(msg, searchText) {
     if (searchText.length < 2) return
+    // todo check for @names too
     const usersInGuild = msg.guild.members.array()
     const userNamesInGuild = usersInGuild.map(user => ({
       ...user,
       searchString: `${user.user.username} ${user.user.username}#${
         user.user.discriminator
-      } ${user.nickname ? user.nickname : ''} <@!${user.id}>`.toLowerCase(),
+      } ${user.nickname ? user.nickname : ''} <@!${user.id}> <@${
+        user.id
+      }>`.toLowerCase(),
     }))
     const foundUser = userNamesInGuild.find(
       userName => userName.searchString.indexOf(searchText.toLowerCase()) >= 0
