@@ -33,7 +33,6 @@ module.exports = function(msg, options, client) {
         match[command.expectsUserInRegexSlot - 1]
       ) {
         const usernameInPlainText = match[command.expectsUserInRegexSlot]
-        console.log(usernameInPlainText)
         typedUser = getUserInGuildFromText(msg, usernameInPlainText)
       }
 
