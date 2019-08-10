@@ -7,12 +7,15 @@ const leaveServer = require('./events/leaveServer')
 const privateMessage = require('./events/receivePrivateMessage')
 const guildMessage = require('./events/receiveGuildMessage')
 const otherMemberJoinServer = require('./events/otherMemberJoinServer')
+const db = require('../db/firestore')
 
 // const launchTime = Date.now()
 let messagesScannedSinceLastNotification = 0
 setInterval(() => {
-  if (messagesScannedSinceLastNotification > 0)
+  if (messagesScannedSinceLastNotification > 0) {
     console.log(`${messagesScannedSinceLastNotification} messages scanned.`)
+    db.addToTotalScanned(messagesScannedSinceLastNotification)
+  }
   messagesScannedSinceLastNotification = 0
 }, 1 * 60 * 60 * 1000)
 

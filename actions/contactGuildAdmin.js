@@ -1,5 +1,8 @@
 const db = require('../db/firestore')
-const { getContactsOrOwnerOrModerator } = require('../commonFunctions')
+const {
+  getContactsOrOwnerOrModerator,
+  getLabelFromUser,
+} = require('../commonFunctions')
 
 module.exports = async ({ guild, options, message, msg }) => {
   options =
@@ -15,6 +18,12 @@ module.exports = async ({ guild, options, message, msg }) => {
   if (!currentGuildContacts)
     return console.log('Failed to find contact points in server', guild.name)
   currentGuildContacts.forEach(singleContact =>
-    singleContact.user.send(message)
+    singleContact.user.send(message).catch(err => {
+      console.log(
+        `Failed to contact admin ${getLabelFromUser(singleContact)}: ${
+          err.message
+        }`
+      )
+    })
   )
 }
