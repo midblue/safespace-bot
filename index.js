@@ -7,7 +7,7 @@ const leaveServer = require('./events/leaveServer')
 const privateMessage = require('./events/receivePrivateMessage')
 const guildMessage = require('./events/receiveGuildMessage')
 const otherMemberJoinServer = require('./events/otherMemberJoinServer')
-const db = require('../db/firestore')
+const db = require('./db/firestore')
 
 // const launchTime = Date.now()
 let messagesScannedSinceLastNotification = 0
