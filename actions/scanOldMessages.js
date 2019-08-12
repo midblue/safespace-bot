@@ -14,18 +14,19 @@ module.exports = async guild => {
     return new Promise(async resolve => {
       const foundPastInfractions = []
       let oldestMessageId = null
-      let messages = await channel.messages.fetch({ limit: 50 }).catch(err => {
+      let messages
+      messages = await channel.messages.fetch({ limit: 50 }).catch(err => {
         console.error(
           'Missing permissions to get channel messages!',
           channel.name
         )
+        messages = null
         // contactGuildAdmin({
         //   guild: msg.guild,
         //   message: `I don't have permission to read past messages on your server. Kick SafeSpace and use this link to re-add with proper permissions. https://discordapp.com/oauth2/authorize?client_id=605039242309140483&scope=bot&permissions=76800`,
         // })
       })
-      if (!messages) resolve([])
-      while (messages.keyArray().length > 0) {
+      while (messages && messages.keyArray().length > 0) {
         console.log(
           `Scanning ${messages.keyArray().length} messages from #${
             channel.name
