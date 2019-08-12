@@ -17,6 +17,6 @@ module.exports = firestore => ({
         totalForgiven: 0,
       })
     const newTotal = (data.totalMessagesScanned || 0) + toAdd
-    await document.set({ totalMessagesScanned: newTotal })
+    await document.update({ totalMessagesScanned: newTotal })
   },
 })
