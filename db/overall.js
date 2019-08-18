@@ -10,7 +10,7 @@ module.exports = firestore => ({
     const document = firestore.doc(`master/stats`)
     const doc = await document.get()
     const data = doc.data()
-    if (!data) return
+    if (!data || !data.totalMessagesScanned) return
     const newTotal = data.totalMessagesScanned + toAdd
     await document.update({ totalMessagesScanned: newTotal })
   },

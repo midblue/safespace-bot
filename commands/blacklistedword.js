@@ -54,7 +54,7 @@ module.exports = {
       console.error(
         'Missing permissions to delete!',
         msg.guild.name,
-        msg.channel
+        msg.channel.name
       )
     })
 
