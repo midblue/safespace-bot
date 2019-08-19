@@ -140,12 +140,17 @@ async function updateMasterStats() {
   const document = firestore.doc(`master/stats`)
   const doc = await document.get()
   const stats = doc.data() || {}
-  // if (!stats.totalInfractions || !stats.totalForgiven)
-  // return console.log('Failed to update master stats')
   const newInfractions =
     (stats.totalInfractions || 0) + toAddToMasterStats.infractions
   const newForgiven = (stats.totalForgiven || 0) + toAddToMasterStats.forgiven
-  await document.set({
+  if (!stats.totalInfractions || !stats.totalForgiven)
+    return document.set({
+      totalInfractions: newInfractions,
+      totalForgiven: newForgiven,
+      totalMessagesScanned: 0,
+    })
+
+  await document.update({
     totalInfractions: newInfractions,
     totalForgiven: newForgiven,
   })
