@@ -19,8 +19,8 @@ module.exports = {
       })
   },
   reply(msg, text) {
-    const messages = [],
-      remainingText = text
+    const messages = []
+    let remainingText = text
     while (remainingText.length > 0) {
       messages.push(remainingText.substring(0, 1998))
       remainingText = remainingText.substring(1998)
