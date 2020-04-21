@@ -11,7 +11,7 @@ module.exports = firestore => ({
     const doc = await document.get()
     const data = doc.data()
     if (!data || !data.totalMessagesScanned) return
-    const newTotal = data.totalMessagesScanned + toAdd
+    const newTotal = parseInt(data.totalMessagesScanned) + toAdd
     await document.update({ totalMessagesScanned: newTotal })
   },
 })
