@@ -1,3 +1,6 @@
+const { Firestore } = require('@google-cloud/firestore')
+const increment = Firestore.FieldValue.increment(1)
+
 module.exports = firestore => ({
   async getOverallStats() {
     const document = firestore.doc(`master/stats`)
@@ -16,12 +19,10 @@ module.exports = firestore => ({
   },
 
   async incrementOtherServerContactEvents() {
-    const increment = firestore.FieldValue.increment(1)
     firestore.doc(`master/stats`).update({ totalOtherServerContact: increment })
   },
 
   async incrementModContactEvents() {
-    const increment = firestore.FieldValue.increment(1)
     firestore.doc(`master/stats`).update({ totalModContact: increment })
   },
 })
