@@ -5,7 +5,7 @@ const contactGuildAdmin = require('./contactGuildAdmin')
 module.exports = async guild => {
   console.log('Initiating scan of all old messages.')
   const blacklistedWordRegex = blacklistedWord.regex(
-    await db.getGuildSettings({ guildId: guild.id })
+    await db.getGuildSettings({ guildId: guild.id }),
   )
 
   const channelScans = guild.channels.map(channel => {
@@ -18,7 +18,7 @@ module.exports = async guild => {
       messages = await channel.messages.fetch({ limit: 50 }).catch(err => {
         console.error(
           'Missing permissions to get channel messages!',
-          channel.name
+          channel.name,
         )
         messages = null
         // contactGuildAdmin({
@@ -30,14 +30,14 @@ module.exports = async guild => {
         console.log(
           `Scanning ${messages.keyArray().length} messages from #${
             channel.name
-          }...`
+          }...`,
         )
         oldestMessageId = messages.last().id
         messages
           .filter(
             message =>
               !message.author.bot &&
-              blacklistedWordRegex.exec(message.cleanContent)
+              blacklistedWordRegex.exec(message.cleanContent),
           )
           .forEach(message => {
             return foundPastInfractions.push({
@@ -66,6 +66,6 @@ module.exports = async guild => {
       .apply([], allInfractionsAsNestedArray)
       .filter(i => i)
     for (let infraction of allInfractions) await db.addInfraction(infraction)
-    // todo should we tell admins about these?
+    // todo should we tell admins about these? prob no.
   })
 }

@@ -12,7 +12,7 @@ module.exports = {
       }(${options.blacklistedWords.full.join('|')})${
         process.env.SCAN_INSIDE_WORDS === 'true' ? `` : `(?:\\s|$)`
       }`,
-      'gim'
+      'gim',
     )
   },
   action(msg, options, match, typedUser, sender, client) {
@@ -21,7 +21,7 @@ module.exports = {
     const blacklistedWordsUsed = []
     const regex = new RegExp(
       `\\b(${options.blacklistedWords.full.join('|')})\\b`,
-      'gim'
+      'gim',
     )
     let matchedWord = regex.exec(msg.cleanContent)
     while (matchedWord != null) {
@@ -55,7 +55,7 @@ module.exports = {
       console.error(
         'Missing permissions to delete!',
         msg.guild.name,
-        msg.channel.name
+        msg.channel.name,
       )
     })
 
@@ -64,7 +64,7 @@ module.exports = {
       options,
       msg,
       message: `Heads up! \`${getLabelFromUser(
-        getUserInGuildFromId(msg.guild, sender.id)
+        getUserInGuildFromId(msg.guild, sender.id),
       )}\` just used hate speech in \`#${
         infraction.channel
       }\` on your server \`${msg.guild.name}\`.
@@ -78,10 +78,12 @@ Here's what they said:
       user: msg.author,
       sourceGuildId: msg.guild.id,
       message: `Heads up! \`${getLabelFromUser(
-        getUserInGuildFromId(msg.guild, sender.id)
+        getUserInGuildFromId(msg.guild, sender.id),
       )}\` just used hate speech on the server \`${msg.guild.name}\`.
 Here's what they said: 
 \`\`\`${infraction.fullMessage}\`\`\``,
     })
+
+    db.incrementModContactEvents()
   },
 }

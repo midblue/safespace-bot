@@ -14,4 +14,14 @@ module.exports = firestore => ({
     const newTotal = parseInt(data.totalMessagesScanned) + toAdd
     await document.update({ totalMessagesScanned: newTotal })
   },
+
+  async incrementOtherServerContactEvents() {
+    const increment = firestore.FieldValue.increment(1)
+    firestore.doc(`master/stats`).update({ totalOtherServerContact: increment })
+  },
+
+  async incrementModContactEvents() {
+    const increment = firestore.FieldValue.increment(1)
+    firestore.doc(`master/stats`).update({ totalModContact: increment })
+  },
 })
