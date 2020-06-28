@@ -3,7 +3,7 @@ const contactGuildAdmin = require('./contactGuildAdmin')
 
 // We give a delay here just in case there really was an error:
 // If the user isn't forgiven in this span, it notifies other servers they're in.
-const forgiveDelay = 12 * 60 * 60 * 1000 // 1/2 day
+const forgiveDelay = 3 * 60 * 60 * 1000 // 3 hours
 module.exports = ({
   user,
   sourceGuildId,
