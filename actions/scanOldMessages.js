@@ -66,6 +66,5 @@ module.exports = async guild => {
       .apply([], allInfractionsAsNestedArray)
       .filter(i => i)
     for (let infraction of allInfractions) await db.addInfraction(infraction)
-    // todo should we tell admins about these? prob no.
   })
 }

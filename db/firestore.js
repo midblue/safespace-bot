@@ -48,10 +48,16 @@ module.exports = {
     const existingInfractions = data.infractions || []
     if (
       existingInfractions.find(
-        existing => existing.messageId == infraction.messageId
+        existing => existing.messageId == infraction.messageId,
       )
     )
       return console.log('skipping existing infraction')
+    console.log(
+      'total infractions for user',
+      userId,
+      ':',
+      existingInfractions.length,
+    )
     await document.update({
       infractions: [...existingInfractions, infraction],
     })
@@ -71,19 +77,17 @@ module.exports = {
     const data = doc.data() || {}
     const existingInfractions = data.infractions || []
     const forgivenInfractions = existingInfractions.filter(
-      i => i.guildId == guildId
+      i => i.guildId == guildId,
     )
     const remainingInfractions = existingInfractions.filter(
-      i => i.guildId != guildId
+      i => i.guildId != guildId,
     )
     if (forgivenInfractions.length > 0) {
       await document.update({
         infractions: remainingInfractions,
       })
       console.log(
-        `Forgave ${
-          forgivenInfractions.length
-        } infractions on server ${guildId} for user ${userId}`
+        `Forgave ${forgivenInfractions.length} infractions on server ${guildId} for user ${userId}`,
       )
       toAddToMasterStats.forgiven += forgivenInfractions.length
     }
@@ -120,7 +124,7 @@ module.exports = {
               ? data.infractions.length
               : 0
             resolve({ userId, infractionsCount })
-          })
+          }),
       )
     return await Promise.all(promises)
   },
@@ -162,6 +166,6 @@ async function updateMasterStats() {
     'Total forgiven:',
     newForgiven,
     'Total offenders:',
-    memoedOffenderUserIds.size
+    memoedOffenderUserIds.size,
   )
 }
