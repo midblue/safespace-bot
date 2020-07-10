@@ -8,9 +8,11 @@ module.exports = async member => {
   })
   if (!infractions || infractions.length === 0) return
 
-  console.log(`${member.guild.name} - New User with a History`)
   const displayName = getLabelFromUser(member)
   const guild = member.guild
+  console.log(
+    `${member.guild.name} - New User with a History (${displayName} has ${infractions.length} infractions)`,
+  )
   contactGuildAdmin({
     guild,
     message: `A user named ${displayName} just joined your server. They have a history of using hate speech on other servers, and I thought you should know.
