@@ -20,7 +20,9 @@ setInterval(() => {
 }, 1 * 60 * 60 * 1000)
 
 client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}!`)
+  console.log(`Logged in as ${client.user.tag} in ${
+		(await client.guilds.cache.array()).length
+	} guilds`)
   client.user.setActivity('s!info', { type: 'LISTENING' })
 })
 
