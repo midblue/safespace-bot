@@ -52,19 +52,29 @@ module.exports = {
       )
     )
       return console.log('skipping existing infraction')
-    console.log(
-      'total infractions for user',
-      userId,
-      ':',
-      existingInfractions.length,
-    )
+    if (existingInfractions.length > 1000) {
+      // we were getting documents over the firebase limit of 1MB, shockingly.
+      console.log(
+        'Truncating infractions beyond number 1000 for user',
+        userId,
+        ':',
+        existingInfractions.length,
+      )
+      while (existingInfractions.length > 1000) {
+        existingInfractions.shift()
+      }
+    }
     await document.update({
       infractions: [...existingInfractions, infraction],
     })
 
     memoedOffenderUserIds.add(userId)
 
-    console.log(`Added new infraction for user ${userId}`)
+    console.log(
+      `Added new infraction for user ${userId} (${
+        existingInfractions.length + 1
+      } total infractions)`,
+    )
     toAddToMasterStats.infractions++
   },
 
