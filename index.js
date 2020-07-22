@@ -29,7 +29,7 @@ client.on('ready', async () => {
 
 client.on('message', async msg => {
   messagesScannedSinceLastNotification++
-  if (!msg.author || msg.author.id === botId) return
+  if (!msg.author || msg.author.bot || msg.author.id === botId) return
   if (!msg.guild || !msg.guild.available) return privateMessage(msg)
   return guildMessage(msg, client)
 })
