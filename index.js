@@ -21,8 +21,9 @@ setInterval(() => {
 
 client.on('ready', async () => {
   console.log(
-    `Logged in as ${client.user.tag} in ${await client.guilds.array()
-      .length} guilds`,
+    `Logged in as ${client.user.tag} in ${
+      (await client.guilds.cache.array()).length
+    } guilds`,
   )
   client.user.setActivity('s!info', { type: 'LISTENING' })
 })
