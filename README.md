@@ -4,6 +4,7 @@
 
 [Add SafeSpace to your server now!](https://discordapp.com/oauth2/authorize?client_id=605039242309140483&scope=bot&permissions=76800)  
 [Read more about SafeSpace here!](https://www.jasperstephenson.com/posts/safespace)
+[Join the SafeSpace support server here](https://discord.gg/Ab3mW4P)
 
 ![Header image](https://www.jasperstephenson.com/posts/safespace/headerthin.png)
 
