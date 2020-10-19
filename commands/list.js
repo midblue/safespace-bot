@@ -19,29 +19,31 @@ module.exports = {
     if (offendersInGuild.length === 0)
       return send(
         msg,
-        `\`\`\`Great news! There are no hate speech users in this server.\`\`\``
+        `\`\`\`Great news! There are no hate speech users in this server.\`\`\``,
       )
 
     let messagesToSend = [`All hate speech users in this server:`]
     let currentPositionInList = 0
     const perPost = 20
     while (currentPositionInList <= offendersInGuild.length) {
-      messagesToSend.push(
-        `\`\`\`${offendersInGuild
-          .slice(currentPositionInList, currentPositionInList + perPost)
-          .map(o => {
-            const userObject = getUserInGuildFromId(msg.guild, o.userId)
-            return `${getLabelFromUser(userObject)} has used hate speech ${
-              o.infractionsCount
-            } time${o.infractionsCount === 1 ? '' : 's'}.`
-          })
-          .join('\n')}\`\`\``
-      )
-      currentPositionInList += perPost
+      const msgPieces = []
+      while (
+        currentPositionInList < currentPositionInList + perPost &&
+        offendersInGuild[currentPositionInList]
+      ) {
+        const userObject = await getUserInGuildFromId(msg.guild, o.userId)
+        msgPieces.push(
+          `${getLabelFromUser(userObject)} has used hate speech ${
+            o.infractionsCount
+          } time${o.infractionsCount === 1 ? '' : 's'}.`,
+        )
+        currentPositionInList++
+      }
+      messagesToSend.push(msgPieces.join('\n') + `\`\`\``)
     }
 
     messagesToSend.push(
-      `Type ${options.prefix}user <username> to learn more about any user.`
+      `Type ${options.prefix}user <username> to learn more about any user.`,
     )
 
     messagesToSend.forEach(message => send(msg, message))

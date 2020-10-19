@@ -15,7 +15,7 @@ module.exports = {
       'gim',
     )
   },
-  action(msg, options, match, typedUser, sender, client) {
+  async action(msg, options, match, typedUser, sender, client) {
     if (!match[1]) return
     console.log(`*** ${msg.guild.name} - Blacklisted Word: ${match[1]}`)
     const blacklistedWordsUsed = []
@@ -64,7 +64,7 @@ module.exports = {
       options,
       msg,
       message: `Heads up! \`${getLabelFromUser(
-        getUserInGuildFromId(msg.guild, sender.id),
+        await getUserInGuildFromId(msg.guild, sender.id),
       )}\` just used hate speech in \`#${
         infraction.channel
       }\` on your server \`${msg.guild.name}\`.
@@ -78,7 +78,7 @@ Here's what they said:
       user: msg.author,
       sourceGuildId: msg.guild.id,
       message: `Heads up! \`${getLabelFromUser(
-        getUserInGuildFromId(msg.guild, sender.id),
+        await getUserInGuildFromId(msg.guild, sender.id),
       )}\` just used hate speech on the server \`${msg.guild.name}\`.
 Here's what they said: 
 \`\`\`${infraction.fullMessage}\`\`\``,

@@ -11,7 +11,7 @@ fs.readdir('./commands', (err, files) => {
   })
 })
 
-module.exports = function(msg, options, client) {
+module.exports = async function(msg, options, client) {
   const sender = msg.author
   for (let command of commands) {
     // console.log(command.regex(options), msg.content)
@@ -34,7 +34,7 @@ module.exports = function(msg, options, client) {
         match[command.expectsUserInRegexSlot - 1]
       ) {
         const usernameInPlainText = match[command.expectsUserInRegexSlot]
-        typedUser = getUserInGuildFromText(msg, usernameInPlainText)
+        typedUser = await getUserInGuildFromText(msg, usernameInPlainText)
       }
 
       // execute command

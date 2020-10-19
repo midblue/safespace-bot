@@ -1,10 +1,10 @@
 const db = require('./db/firestore')
 
 module.exports = {
-  getUserInGuildFromText(msg, searchText) {
+  async getUserInGuildFromText(msg, searchText) {
     if (searchText.length < 2) return
     // todo check for @names too
-    const usersInGuild = msg.guild.members.array()
+    const usersInGuild = await getGuildMembers({ msg })
     const userNamesInGuild = usersInGuild.map(user => ({
       ...user,
       searchString: `${user.user.username} ${user.user.username}#${
@@ -14,35 +14,40 @@ module.exports = {
       }>`.toLowerCase(),
     }))
     const foundUser = userNamesInGuild.find(
-      userName => userName.searchString.indexOf(searchText.toLowerCase()) >= 0
+      userName => userName.searchString.indexOf(searchText.toLowerCase()) >= 0,
     )
     return foundUser
   },
 
   async getAllOffendersInGuild(guild) {
-    const memberIds = guild.members.array().map(m => m.id || m.user.id)
+    const memberIds = (await guild.members.cache.array()).map(
+      m => m.id || m.user.id,
+    )
     return await db.getAllMemberInfractions({ memberIds })
   },
 
   getUserInGuildFromId,
 
-  getContactsOrOwnerOrModerator({ guild, contact }) {
+  async getContactsOrOwnerOrModerator({ guild, contact }) {
     // backwards compatible with old single contact method
     if (contact && !Array.isArray(contact)) contact = [contact]
     // default to contact list
     let thePeople = contact
-      ? contact
-          .map(singleContact => getUserInGuildFromId(guild, singleContact))
-          .filter(c => c)
-      : false
-    if (thePeople && thePeople.length > 0) return thePeople
+      ? contact.map(
+          async singleContact =>
+            await getUserInGuildFromId(guild, singleContact),
+        )
+      : []
+    thePeople = await Promise.all(thePeople)
+    thePeople = thePeople.filter(c => c)
+    if (thePeople.length > 0) return thePeople
     // check guild.owner
-    thePeople = getUserInGuildFromId(guild, guild.ownerID)
+    thePeople = await getUserInGuildFromId(guild, guild.ownerID)
     if (thePeople) return [thePeople]
     // at this point, we just look for an admin of any kind
-    thePeople = guild.members
-      .array()
-      .filter(member => member.permissions.has('ADMINISTRATOR'))
+    thePeople = (await getGuildMembers({ guild })).filter(member =>
+      member.permissions.has('ADMINISTRATOR'),
+    )
     if (thePeople && thePeople.length > 0) return thePeople
     return []
   },
@@ -66,7 +71,7 @@ ${infractions
       `"${u.fullMessage}"
 	  - ${u.date.toDate().toLocaleDateString()} in #${u.channel} on server ${
         u.guild
-      }`
+      }`,
   )
   .join('\n')}${
       infractions.length > shownLimit
@@ -78,8 +83,33 @@ ${infractions
   },
 }
 
-function getUserInGuildFromId(guild, id) {
+async function getUserInGuildFromId(guild, id) {
   if (!guild || !id) return
-  const usersInGuild = guild.members.array()
-  return usersInGuild.find(user => (user.id || user.user.id) == id)
+  const usersInGuild = await getGuildMembers({ guild, ids: [id] })
+  return usersInGuild.find(user => user.user.id == id)
+}
+
+async function getGuildMembers({ msg, guild, ids }) {
+  if (msg) guild = msg.guild
+  let members = []
+  if (!ids) {
+    // just get everything
+    try {
+      members = (
+        await guild.members.fetch().catch(e => {
+          console.log(e)
+          return
+        })
+      ).array()
+    } catch (e) {
+      members = guild.members.cache.array()
+      console.log(
+        `failed to get ${members.length} guild members, falling back to cache`,
+      )
+    }
+  }
+  // get specific ids
+  else members = await guild.members.fetch({ user: ids })
+
+  return members
 }

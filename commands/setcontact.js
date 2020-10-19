@@ -1,9 +1,5 @@
 const db = require('../db/firestore')
-const {
-  getContactsOrOwnerOrModerator,
-  getUserInGuildFromId,
-  getLabelFromUser,
-} = require('../commonFunctions')
+const { getUserInGuildFromId, getLabelFromUser } = require('../commonFunctions')
 const { reply, send } = require('../actions/replyInChannel')
 
 module.exports = {
@@ -12,7 +8,7 @@ module.exports = {
   regex(options) {
     return new RegExp(
       `^${options.prefix}(?:contact|c|setcontact)( ?)(.*)`,
-      'gi'
+      'gi',
     )
   },
   async action(msg, options, match, user) {
@@ -22,14 +18,12 @@ module.exports = {
     })
     let currentContacts = currentSettings.contact || []
     if (!Array.isArray(currentContacts)) currentContacts = [currentContacts]
-    currentContacts = currentContacts
-      .map(contact => getUserInGuildFromId(msg.guild, contact))
-      .filter(c => c)
+    currentContacts = currentContacts.map(
+      async contact => await getUserInGuildFromId(msg.guild, contact),
+    )
+    currentContacts = await Promise.all(currentContacts)
+    currentContacts = currentContacts.filter(c => c)
 
-    // getContactsOrOwnerOrModerator({
-    //   guild: msg.guild,
-    //   contact: options.contact,
-    // }) || []
     console.log(currentContacts.length)
 
     // no user, just list
@@ -42,26 +36,25 @@ module.exports = {
 `)}\`\`\``
           : `Currently, there are no contacts for when hate speech is used on your server.`) +
           `
-Type \`${
-            options.prefix
-          }contact <username>\` to add a new contact, or to remove them from the list.`
+Type \`${options.prefix}contact <username>\` to add a new contact, or to remove them from the list.`,
       )
 
     // user not found
     if (!user)
       return send(
         msg,
-        `\`\`\`Sorry, I couldn't find a user by the name ${match[2]}.\`\`\``
+        `\`\`\`Sorry, I couldn't find a user by the name ${match[2]}.\`\`\``,
       )
 
     const foundUserInList = currentContacts.find(
-      contact => (contact.id || contact.user.id) === (user.id || user.user.id)
+      contact => (contact.id || contact.user.id) === (user.id || user.user.id),
     )
 
     //delete from list
     if (foundUserInList) {
       const filteredList = currentContacts.filter(
-        contact => (contact.id || contact.user.id) !== (user.id || user.user.id)
+        contact =>
+          (contact.id || contact.user.id) !== (user.id || user.user.id),
       )
 
       await db.setGuildSettings({
@@ -76,7 +69,7 @@ Type \`${
             ? `There are no users left in the list.`
             : `The new list is:
 \`\`\`${filteredList.map(contact => getLabelFromUser(contact)).join(`
-`)}\`\`\``)
+`)}\`\`\``),
       )
     }
 
@@ -96,7 +89,7 @@ Type \`${
             ? `There are no users left in the list.`
             : `The new list is:
 \`\`\`${addedList.map(contact => getLabelFromUser(contact)).join(`
-`)}\`\`\``)
+`)}\`\`\``),
       )
     }
   },

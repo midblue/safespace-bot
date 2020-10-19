@@ -12,7 +12,7 @@ module.exports = async ({ guild, options, message, msg }) => {
     (await db.getGuildSettings({
       guildId: guild.id,
     }))
-  const currentGuildContacts = getContactsOrOwnerOrModerator({
+  const currentGuildContacts = await getContactsOrOwnerOrModerator({
     guild,
     contact: options.contact,
   })
