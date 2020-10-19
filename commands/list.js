@@ -31,6 +31,7 @@ module.exports = {
         currentPositionInList < currentPositionInList + perPost &&
         offendersInGuild[currentPositionInList]
       ) {
+        const o = offendersInGuild[currentPositionInList]
         const userObject = await getUserInGuildFromId(msg.guild, o.userId)
         msgPieces.push(
           `${getLabelFromUser(userObject)} has used hate speech ${
