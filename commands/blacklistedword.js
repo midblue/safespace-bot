@@ -44,7 +44,7 @@ module.exports = {
       infraction,
     })
 
-    msg.delete(1000).catch(err => {
+    msg.delete({ timeout: 1000 }).catch((err) => {
       if (err.message === 'Unknown Message') return // already deleted
       contactGuildAdmin({
         guild: msg.guild,

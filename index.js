@@ -1,3 +1,13 @@
+// todo
+/*
+
+add r*t*rd? t**nny?
+private lists
+whitelist
+
+
+*/
+
 require('dotenv').config()
 const Discord = require('discord.js')
 const client = new Discord.Client()
