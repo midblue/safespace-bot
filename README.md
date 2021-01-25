@@ -42,8 +42,11 @@ We also wouldn't recommend using this bot anywhere that a blacklisted word might
 `s!prefix <s!/s-/s~>` - Set the prefix for bot commands to one of these 3 options. Defaults to "s!".
 
 ## Help Out With Server Costs!
+[Patreon](https://www.patreon.com/midblue)  
 
+Paypal:  
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=EPH9CL25C3LLA)
+
 
 ---
 
