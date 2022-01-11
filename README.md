@@ -2,9 +2,14 @@
 
 **Keep hate speech OUT of your server, and everyone else's server, too.**
 
-[Add SafeSpace to your server now!](https://discordapp.com/oauth2/authorize?client_id=605039242309140483&scope=bot&permissions=76800)  
-[Read more about SafeSpace here!](https://www.jasperstephenson.com/posts/safespace)  
-[Join the SafeSpace support server here](https://discord.gg/Ab3mW4P)
+Update Jan 2022:
+> tl;dr the public Safespace Bot is shutting down because Discord neutered it.
+
+> Discord changed their bot rules such that seeing message contents requires special permission. I applied for this permission, and was rejected with illogical reasoning. Since this bot revolves around that, I've decided to shut down the publically hosted bot rather than continue to spend money on hosting a husk of the bot I've envisioned.
+
+> Please be aware that I will not be actively developing the bot going forward. Feel free to fork your own versions for new features.
+
+---
 
 ![Header image](https://www.jasperstephenson.com/posts/safespace/headerthin.png)
 
